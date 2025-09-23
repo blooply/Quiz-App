@@ -1,0 +1,12 @@
+[
+  {
+    "question": "BETRAY REED | BETRAY SONGBIRD",
+    "values": [-1, 1],
+    "choices": ["BETRAY REED", "BETRAY SONGBIRD"]
+  },
+  {
+    "question": "bosco or doretta or bet-c",
+    "values": [1, 1, 1],
+    "choices": ["bosco", "doretta", "bet-c"]
+  }
+]
