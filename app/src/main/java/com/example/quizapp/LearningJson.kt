@@ -97,6 +97,6 @@ class LearningJson : AppCompatActivity() {
             }
         }
 
-        Log.d(TAG, "onCreate: Max: $max Min: $min Avg: $avg LargestDiff: $largestDiff LargestDiffIndex: $largestDiffIndex DiffCount: $diffCount Increasing: $increasing TopThreeDiffs: $topThreeDiffs")
+        Log.d(TAG, "Max: $max\nMin: $min\nAvg: $avg\nLargestDiff: $largestDiff\nLargestDiffIndex: $largestDiffIndex\nDiffCount: $diffCount\nIncreasing: $increasing\nTopThreeDiffs: $topThreeDiffs")
     }
 }
