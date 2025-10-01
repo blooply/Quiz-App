@@ -25,7 +25,7 @@ class LearningJson : AppCompatActivity() {
             insets
         }
 
-        // lod from a JSON file
+        // load from a JSON file
         val gson = Gson()
         val inputStream = resources.openRawResource(R.raw.pluslife)
         val jsonString = inputStream.bufferedReader().use {
