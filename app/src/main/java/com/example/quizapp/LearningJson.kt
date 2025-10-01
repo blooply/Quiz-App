@@ -67,10 +67,10 @@ class LearningJson : AppCompatActivity() {
             total += test.testData.temperatureSamples[i].temp
         }
 
-        val largestDiff: Int = max(abs(test.targetTemp - max), abs(test.targetTemp - min)).toInt()
-        val largestDiffIndex: Int = if (abs(test.targetTemp - max) > abs(test.targetTemp - min)) maxIndex else minIndex
+        val largestDiff = max(abs(test.targetTemp - max), abs(test.targetTemp - min))
+        val largestDiffIndex = if (abs(test.targetTemp - max) > abs(test.targetTemp - min)) maxIndex else minIndex
 
-        val avg: Double = total / test.testData.temperatureSamples.size
+        val avg = total / test.testData.temperatureSamples.size
 
         for (sample in test.testData.samples) {
             if (sample.startingChannel == 3) channelList.add(sample.firstChannelResult)
