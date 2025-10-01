@@ -12,7 +12,7 @@ import kotlin.math.abs
 class LearningJson : AppCompatActivity() {
 
     companion object {
-        val TAG = "LearningJSON"
+        const val TAG = "LearningJSON"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,12 +34,19 @@ class LearningJson : AppCompatActivity() {
         val test = gson.fromJson(jsonString, PluslifeTest::class.java)
         Log.d(TAG, "onCreate: $test")
 
-        var max: Double = Double.MIN_VALUE
-        var min: Double = Double.MAX_VALUE
-        var largestDiff: Double = 0.0
-        var largestDiffIndex: Int = 0
-        var diffCount: Int = 0
-        var total: Double = 0.0
+        var max = Double.MIN_VALUE
+        var min = Double.MAX_VALUE
+        var largestDiff = 0.0
+        var largestDiffIndex = 0
+        var diffCount = 0
+        var total = 0.0
+
+        val channelList = mutableListOf<Int>()
+        val channelListDiffs = mutableListOf<Int>()
+        var increasing = true
+
+        val topThreeDiffs = mutableListOf(Int.MIN_VALUE, Int.MIN_VALUE, Int.MIN_VALUE)
+
         for (i in test.testData.temperatureSamples.indices) {
             if (test.testData.temperatureSamples[i].temp > max) max = test.testData.temperatureSamples[i].temp
             if (test.testData.temperatureSamples[i].temp < min) min = test.testData.temperatureSamples[i].temp
@@ -50,7 +57,34 @@ class LearningJson : AppCompatActivity() {
             if (abs(test.testData.temperatureSamples[i].temp - test.targetTemp) > 0.5) diffCount++
             total += test.testData.temperatureSamples[i].temp
         }
-        var avg: Double = total / test.testData.temperatureSamples.size
-        Log.d(TAG, "onCreate: $max $min $avg $largestDiff $largestDiffIndex $diffCount")
+
+        val avg: Double = total / test.testData.temperatureSamples.size
+
+        for (sample in test.testData.samples) {
+            if (sample.startingChannel == 3) channelList.add(sample.firstChannelResult)
+        }
+
+        for (i in 1..<channelList.size) {
+            if (increasing && channelList[i - 1] > channelList[i]) increasing = false
+
+            channelListDiffs.add(abs(channelList[i] - channelList[i - 1]))
+        }
+
+        for (i in channelListDiffs.indices) {
+            if (channelListDiffs[i] > topThreeDiffs[0]) {
+                topThreeDiffs.add(0, channelListDiffs[i])
+                topThreeDiffs.removeAt(3)
+            }
+            else if (channelListDiffs[i] > topThreeDiffs[1]) {
+                topThreeDiffs.add(1, channelListDiffs[i])
+                topThreeDiffs.removeAt(3)
+            }
+            else if (channelListDiffs[i] > topThreeDiffs[2]) {
+                topThreeDiffs.add(2, channelListDiffs[i])
+                topThreeDiffs.removeAt(3)
+            }
+        }
+
+        Log.d(TAG, "onCreate: $max $min $avg $largestDiff $largestDiffIndex $diffCount $increasing $topThreeDiffs")
     }
 }
