@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
-import kotlin.math.abs
+import kotlin.math.*
 
 class LearningJson : AppCompatActivity() {
 
@@ -36,8 +36,9 @@ class LearningJson : AppCompatActivity() {
 
         var max = Double.MIN_VALUE
         var min = Double.MAX_VALUE
-        var largestDiff = 0.0
-        var largestDiffIndex = 0
+        var maxIndex = 0
+        var minIndex = 0
+
         var diffCount = 0
         var total = 0.0
 
@@ -48,15 +49,26 @@ class LearningJson : AppCompatActivity() {
         val topThreeDiffs = mutableListOf(Int.MIN_VALUE, Int.MIN_VALUE, Int.MIN_VALUE)
 
         for (i in test.testData.temperatureSamples.indices) {
-            if (test.testData.temperatureSamples[i].temp > max) max = test.testData.temperatureSamples[i].temp
-            if (test.testData.temperatureSamples[i].temp < min) min = test.testData.temperatureSamples[i].temp
-            if (abs(test.testData.temperatureSamples[i].temp - test.targetTemp) > largestDiff) {
-                largestDiff = abs(test.testData.temperatureSamples[i].temp - test.targetTemp)
-                largestDiffIndex = i
+            if (test.testData.temperatureSamples[i].temp > max) {
+                max = test.testData.temperatureSamples[i].temp
+                maxIndex = i
             }
+            if (test.testData.temperatureSamples[i].temp < min) {
+                min = test.testData.temperatureSamples[i].temp
+                minIndex = i
+            }
+
+//            if (abs(test.testData.temperatureSamples[i].temp - test.targetTemp) > largestDiff) {
+//                largestDiff = abs(test.testData.temperatureSamples[i].temp - test.targetTemp)
+//                largestDiffIndex = i
+//            }
+
             if (abs(test.testData.temperatureSamples[i].temp - test.targetTemp) > 0.5) diffCount++
             total += test.testData.temperatureSamples[i].temp
         }
+
+        val largestDiff: Int = max(abs(test.targetTemp - max), abs(test.targetTemp - min)).toInt()
+        val largestDiffIndex: Int = if (abs(test.targetTemp - max) > abs(test.targetTemp - min)) maxIndex else minIndex
 
         val avg: Double = total / test.testData.temperatureSamples.size
 
