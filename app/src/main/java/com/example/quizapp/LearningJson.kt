@@ -76,7 +76,7 @@ class LearningJson : AppCompatActivity() {
             if (sample.startingChannel == 3) channelList.add(sample.firstChannelResult)
         }
 
-        for (i in 1..<channelList.size) {
+        for (i in 1 until channelList.size) {
             if (increasing && channelList[i - 1] > channelList[i]) increasing = false
 
             channelListDiffs.add(abs(channelList[i] - channelList[i - 1]))
